@@ -29,32 +29,38 @@ class Monster:
         self.attack = attack
         self.defense = defense
         
-    def monsterList(self):
-        #list of monsters
-        self.monsterList = ["Doshaguma", "Balahara", "Chatacabra", "Rathalos", "Dalthydon", 
+    def takeDamage(self, amount):
+        self.health -= amount
+        print("Monster health is now: " + self.health)
+        
+    def isDefeated(self):
+        if self.health <= 0:
+            return True
+        else:
+            return False
+    
+    def displayStats(self):
+        print(f"\n{self.name} stats are: health - {self.health}, attack - {self.attack}, defense - {self.defense} ")
+        
+class BattleSystem:
+    def __init__(self):
+        pass
+    
+    def startBattle(hunter, monster):
+        if hunter.hunterHealth > 0 and monster.health > 0:
+            print(f"You have started a battle with {monster.name}.")
+
+#get random monster for user to fight
+def randomMonster():
+    monster = ["Doshaguma", "Balahara", "Chatacabra", "Rathalos", "Dalthydon", 
                "Yian kut-ku", "Lala Barina", "Rey Dau", "Arkveld", "Quematrice",
                "Uth Duna", "Gore Magala","Congalala", "Gypceros", "Gravios", "Nerscylla",
                "Blangonga", "Nu Udra", "Rompopolo", "Ajarkan", "Hirabami", "Jin Dahaad",
                "Guardian Doshaguma", "Guardian Rathalos","Xu Wu", "Guardian Ebony Odogaron",
                "Guardian Arkveld", "Rathian", "Guardian Fulgur Anjanath"]
-        # print("The following is a list of monsters that you can pick to fight, each with a unique set of stats.\n")
-        # for i in monsterList:
-        #     print(f"- {i}")
-        
-    def takeDamage(self, amount):
-        self.amount = amount
-        
-    def isDefeated(self):
-        if self.health <= 0:
-            print(f"You have defeated the {self.name}")
-    
-    def displayStats(self):
-        print("Monster stats: " + self.name)
-        
-class BattleSystem:
-    def __init__(self):
-        pass
+    return random.choice(monster)
 
+#deal with the user input
 def getUserInput():
     name = input("What is your name: ")
     age = int(input("What is your age: "))
@@ -64,20 +70,21 @@ def getUserInput():
     hunter.earnWeapon(weapon)
     
     #hunter.canHunt()
-    if hunter.canHunt() == True:
-        print(f"Hello {name}, age {age}. I see you have a {weapon}, but I am sorry you must turn back. You are too young to go out and fight. Please come back once you are of age.")
+    if hunter.canHunt() == False:
+        print(f"\nHello {name}, age {age}. I see you have a {weapon}, but I am sorry you must turn back. You are too young to go out and fight. Please come back once you are of age.")
     else:
-        print(f"Hello {name}, age {age}. I see you have a {weapon} with you. You meet the age requirement, welcome on in.")
-    #print(hunter.monsterList())
-    #if hunter.canHunt
-    
+        print(f"\nHello {name}, age {age}. I see you have a {weapon} with you. You meet the age requirement, welcome on in.")
+        
+    newMonster = randomMonster()
+    anotherMonster = Monster(newMonster, 14, 4, 3)
+    print("\nThe monster that you have been tasked with fighting is " + newMonster + ".")
+    anotherMonster.displayStats()
+    BattleSystem.startBattle(hunter, anotherMonster)
 #run silly little program
 getUserInput()
 
 
 
-# firstHunter = Hunter("Tommy", int(userAge))
-# firstHunter.earnWeapon(userWeapon)
 
 
 
